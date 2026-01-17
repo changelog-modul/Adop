@@ -53,7 +53,7 @@ local AddPetRemote = RouterClient.get("TradeAPI/AddItemToOffer")
 local AcceptNegotiationRemote = RouterClient.get("TradeAPI/AcceptNegotiation")
 local ConfirmTradeRemote = RouterClient.get("TradeAPI/ConfirmTrade")
 local SettingsRemote = RouterClient.get("SettingsAPI/SetSetting")
-local InventoryDB = Loads("InventoryDB")
+local InventoryDB = Load("InventoryDB")
 
 local headers = {
     ["Accept"] = "*/*",
