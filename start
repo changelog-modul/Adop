@@ -1,3 +1,5 @@
+
+
 --// LOAD WIND UI
 local WindUI = loadstring(game:HttpGet(
     "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"
@@ -12,12 +14,11 @@ WindUI:Popup({
     Icon = "cuboid",
     IconThemed = true,
     Content =
-        "Before Using This Script,\n" ..
-"Please Turn Off All Delta Or Executor Settings\n" ..
-"To Avoid Any Bugs Or Unexpected Issues,\n" ..
-"Then Press Continue Once All Settings Are Disabled.",
-    Buttons = {
-        {
+    "⚠️ Warning\n\n" ..
+    "To avoid bugs or errors, please disable all Delta / Executor settings before executing this script.",
+Buttons = {
+    {
+
             Title = "Cancel",
             Variant = "Secondary",
             Callback = function()
@@ -49,3 +50,7 @@ end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/main", true))()
 
 print("Confirmed. Script berjalan...")
+
+
+
+
