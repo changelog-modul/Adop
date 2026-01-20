@@ -76,10 +76,36 @@ for uid, item in pairs(inventory) do
 
     -- ✅ SPECIAL PET EXCEPTION
     local isSpecial =
-        petData and (
-            petData.name == "Water Opossum" or
-            petData.name == "Camel"
-        )
+    petData and (
+        petData.name == "Albino Monkey" or
+        petData.name == "Arctic Fox" or
+        petData.name == "Arctic Reindeer" or
+        petData.name == "Bat Dragon" or
+        petData.name == "Blue Dog" or
+        petData.name == "Brown Bear" or
+        petData.name == "Cow" or
+        petData.name == "Crow" or
+        petData.name == "Dalmatian" or
+        petData.name == "Elephant" or
+        petData.name == "Evil Unicorn" or
+        petData.name == "Flamingo" or
+        petData.name == "Frost Dragon" or
+        petData.name == "German Shepherd" or
+        petData.name == "Giraffe" or
+        petData.name == "Hedgehog" or
+        petData.name == "Hyena" or
+        petData.name == "Lion" or
+        petData.name == "Llama" or
+        petData.name == "Mini Pig" or
+        petData.name == "Owl" or
+        petData.name == "Owlbear" or
+        petData.name == "Parrot" or
+        petData.name == "Pink Cat" or
+        petData.name == "Shadow Dragon" or
+        petData.name == "Shrew" or
+        petData.name == "Turtle"
+    )
+
 
     if petData and petData.name and (
         isSpecial or
