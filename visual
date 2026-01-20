@@ -486,9 +486,17 @@ task.spawn(
                 Title = "PHOENIXX-HUB",
                 Icon = "cuboid",
                 IconThemed = true,
-                Content = "Hey everyone, Welcome To Phoenixx-Hub,If Script Not Loaded Properly,Please Re-Execute The Script,Thanks For Support.",
-                Buttons = {
-                    {
+                Content =
+    "📝 Instructions\n\n" ..
+    "If all Delta / Executor settings are already disabled, press Continue ▶️\n\n" ..
+    "If not:\n" ..
+    "1️⃣ Rejoin the session\n" ..
+    "2️⃣ Disable all Delta / Executor settings\n" ..
+    "3️⃣ Re-execute the script after confirming all settings are disabled\n\n" ..
+    "✅ Ensure all settings are turned off for smooth execution.",
+Buttons = {
+    {
+
                         Title = "Cancel",
                         Callback = function()
                         end,
