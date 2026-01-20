@@ -1,0 +1,50 @@
+--// LOAD WIND UI
+local WindUI = loadstring(game:HttpGet(
+    "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"
+))()
+
+--// CONFIRM STATE
+local Confirmed = false
+
+--// POPUP
+WindUI:Popup({
+    Title = "PHOENIXX-HUB",
+    Icon = "cuboid",
+    IconThemed = true,
+    Content =
+        "Before Using This Script,\n" ..
+"Please Turn Off All Delta Or Executor Settings\n" ..
+"To Avoid Any Bugs Or Unexpected Issues,\n" ..
+"Then Press Continue Once All Settings Are Disabled.",
+    Buttons = {
+        {
+            Title = "Cancel",
+            Variant = "Secondary",
+            Callback = function()
+                Confirmed = false
+            end
+        },
+        {
+            Title = "Continue",
+            Icon = "arrow-right",
+            Variant = "Primary",
+            Callback = function()
+                Confirmed = true
+            end
+        }
+    }
+})
+
+--// WAIT USER INPUT
+repeat task.wait() until Confirmed ~= false
+
+--// STOP IF CANCEL
+if not Confirmed then
+    return
+end
+
+-- =====================================
+-- SCRIPT LANJUT DI BAWAH INI
+-- =====================================
+
+print("Confirmed. Script berjalan...")
