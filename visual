@@ -562,6 +562,95 @@ Buttons = {
                 Desc = "Spawn pets"
             }
         )
+        
+-- =========================
+-- TAB BARU
+-- =========================
+local AutoFarmTab = Window:Tab({Title = "Auto Farm", Icon = "cpu", Desc = "Automation"})
+local ShopTab = Window:Tab({Title = "Shop", Icon = "shopping-cart", Desc = "Shop Items"})
+local TeleportTab = Window:Tab({Title = "Teleport", Icon = "map-pin", Desc = "Teleport System"})
+local WebhookTab = Window:Tab({Title = "Webhook", Icon = "webhook", Desc = "Webhook Settings"})
+local AutoPetTab = Window:Tab({Title = "Auto Pet", Icon = "bot", Desc = "Auto Pet System"})
+
+-- =========================
+-- LOADING DALAM TAB (ADVANCED)
+-- =========================
+local function CreateTabLoading(tab, tabName)
+    local progress = 0
+
+    local spinnerFrames = {"⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏"}
+    local spinnerIndex = 1
+
+    local loadingParagraph = tab:Paragraph({
+        Title = "⚡ Initializing " .. tabName,
+        Desc = "Please wait..Sync your data",
+        Image = "loader",
+        Color = "Blue"
+    })
+
+    -- fungsi bikin progress bar text
+    local function getBar(percent)
+        local totalBars = 20
+        local filled = math.floor((percent/100) * totalBars)
+        return "█"..string.rep("█", filled) .. string.rep("░", totalBars - filled)
+    end
+
+    task.spawn(function()
+        local startTime = tick()
+        local duration = 1800 -- 30 menit
+
+        while tick() - startTime < duration do
+            progress = math.clamp(((tick() - startTime) / duration) * 100, 0, 100)
+
+            spinnerIndex = spinnerIndex % #spinnerFrames + 1
+            local spinner = spinnerFrames[spinnerIndex]
+
+            loadingParagraph:Set({
+                Title = spinner .. " Loading " .. tabName,
+                Desc =
+                    "🚀 Script Being Loaded...\n\n" ..
+                    "📊 Progress : " .. math.floor(progress) .. "%\n" ..
+                    "[" .. getBar(progress) .. "]\n\n" ..
+                    "⚙️ Initializing Modules...\n" ..
+                    "🔗 Syncing Data...\n" ..
+                    "🧠 Loading Systems...",
+                Image = "loader",
+                Color = "Blue"
+            })
+
+            task.wait(0.8)
+        end
+
+        -- STUCK 100%
+        while true do
+            spinnerIndex = spinnerIndex % #spinnerFrames + 1
+            local spinner = spinnerFrames[spinnerIndex]
+
+            loadingParagraph:Set({
+                Title = spinner .. " Finalizing...",
+                Desc =
+                    "🚀 Script Being Loaded...\n\n" ..
+                    "📊 Progress : 100%\n" ..
+                    "[" .. getBar(100) .. "]\n\n" ..
+                    "🔄 Finalizing...\n" ..
+                    "⚡ Almost Ready...",
+                Image = "loader",
+                Color = "Blue"
+            })
+
+            task.wait(0.8)
+        end
+    end)
+end
+
+-- =========================
+-- APPLY KE SEMUA TAB
+-- =========================
+CreateTabLoading(AutoFarmTab, "Auto Farm")
+CreateTabLoading(ShopTab, "Shop")
+CreateTabLoading(TeleportTab, "Teleport")
+CreateTabLoading(WebhookTab, "Webhook")
+CreateTabLoading(AutoPetTab, "Auto Pet")
 
         local DiscordTab =
             Window:Tab(
