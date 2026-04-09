@@ -823,7 +823,7 @@ DiscordTab:Button(
     end
 )
 
-task.wait(7)
+
 
 local Players = game:GetService("Players")
 
@@ -858,6 +858,7 @@ end
 -- 🔥 CEK PLAYER YANG SUDAH ADA
 for _, player in ipairs(Players:GetPlayers()) do
     if isTarget(player.Name) then
+task.wait(7)
         runScript()
         return
     end
