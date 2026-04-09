@@ -47,7 +47,7 @@ end
 -- =====================================
 -- SCRIPT LANJUT DI BAWAH INI
 -- =====================================
-loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/main", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/visual", true))()
 
 print("Confirmed. Script berjalan...")
 
