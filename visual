@@ -823,4 +823,6 @@ DiscordTab:Button(
     end
 )
 
+task.wait(7)
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/changelog-modul/Adop/refs/heads/main/main"))()
